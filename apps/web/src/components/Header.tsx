@@ -1,15 +1,17 @@
 import { Container, Col, Row } from 'react-bootstrap';
 
-export default function Header () {
-    return(
+export default function Header() {
+    return (
         <>
-            <Container>
+            <Container className="header">
                 <Row>
                     <Col>
-                    <h1>ADD LOGO</h1>
+                        <h1>telesnails</h1>
                     </Col>
-                    <Col>
-                        <w3m-button />
+                    <Col className='header-connect'>
+                        <div style={{ float: 'inline-end' }}>
+                            <w3m-button />
+                        </div>
                     </Col>
                 </Row>
             </Container>
