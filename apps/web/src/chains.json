@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Mainnet",
+        "id": 1,
+        "logoUrl": "https://assets.coingecko.com/coins/images/279/standard/ethereum.png"
+    },
+    {
+        "name": "OP Mainnet",
+        "id": 10,
+        "logoUrl": "https://assets.coingecko.com/coins/images/25244/standard/Optimism.png?1696524385"
+    },
+    {
+        "name": "Celo",
+        "id": 42220,
+        "logoUrl": "https://assets.coingecko.com/coins/images/11090/standard/InjXBNx9_400x400.jpg"
+    },
+    {
+        "name": "Arbitrum One",
+        "id": 42161,
+        "logoUrl": "https://assets.coingecko.com/coins/images/16547/standard/photo_2023-03-29_21.47.00.jpeg"
+    },
+    {
+        "name": "Gnosis",
+        "id": 100,
+        "logoUrl": "https://assets.coingecko.com/coins/images/662/standard/logo_square_simple_300px.png?1696501854"
+    }
+]

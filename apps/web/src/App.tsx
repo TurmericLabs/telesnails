@@ -1,4 +1,5 @@
 import { createWeb3Modal } from '@web3modal/wagmi/react'
+import SnailsTable from './components/SnailsTable';
 
 interface AppProps {
   wagmiConfig: any;
@@ -14,6 +15,7 @@ function App({ wagmiConfig, projectId, chains }: AppProps) {
     <>
       <div>
         <w3m-button />
+        <SnailsTable />
       </div>
     </>
   );
