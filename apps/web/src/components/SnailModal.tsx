@@ -22,8 +22,8 @@ export default function SnailModal({ option, snail }: SnailModalProps) {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
-                Edit
+            <Button onClick={handleShow} className='button-primary'>
+                {option === SnailModalOptions.CREATE ? "Create a Telesnail" : "Edit snail"}
             </Button>
 
             <Modal show={show} onHide={handleClose}>

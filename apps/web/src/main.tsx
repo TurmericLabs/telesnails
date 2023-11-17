@@ -7,18 +7,22 @@ import { WagmiConfig } from "wagmi";
 import App from "./App.tsx";
 import { chains, projectId, metadata } from './wagmi.ts';
 import Header from './components/Header.tsx';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SnailsPage from './pages/snails.tsx';
+import FirstSnailPage from './pages/first-snail.tsx';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "@fontsource/londrina-solid"; 
+import "@fontsource-variable/nunito"
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
-  { path: "/snails", element: <SnailsPage /> }
+  { path: "/snails", element: <SnailsPage /> },
+  { path: "/first-snail", element: <FirstSnailPage /> },
 ]);
 
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 createWeb3Modal({ wagmiConfig, projectId, chains, themeVariables: {
   '--w3m-accent': '#00AB60',
+  '--w3m-font-family': 'Nunito Variable',
 } })
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
