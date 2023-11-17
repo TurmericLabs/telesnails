@@ -1,15 +1,7 @@
-import SnailsTable from './components/SnailsTable';
-
-function App() {
-
+export default function App() {
   return (
     <>
-      <div>
-        <w3m-button />
-        <SnailsTable />
-      </div>
+      <h1>router test</h1>
     </>
   );
 }
-
-export default App;
