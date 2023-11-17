@@ -1,21 +1,17 @@
-import "@rainbow-me/rainbowkit/styles.css";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { defaultWagmiConfig } from '@web3modal/wagmi/react'
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { CSSReset, ChakraProvider } from "@chakra-ui/react";
 import { WagmiConfig } from "wagmi";
-import { chains, wagmiConfig } from "./wagmi";
 import App from "./App.tsx";
+import { chains, projectId, metadata } from './wagmi.ts';
+
+const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <CSSReset />
       <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains}>
-          <App />
-        </RainbowKitProvider>
+        <App chains={chains} projectId={projectId} wagmiConfig={wagmiConfig}/>
       </WagmiConfig>
-    </ChakraProvider>
   </React.StrictMode>,
 );
