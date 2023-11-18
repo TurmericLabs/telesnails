@@ -41,7 +41,7 @@ export default function SnailsTable() {
                                 </Stack>
                             </td>
                             <td>
-                                <Button variant="primary">Execute</Button>
+                                <Button className="button-primary">Execute</Button>
                                 <SnailModal option={SnailModalOptions.EDIT} snail={snail} />
                             </td>
                         </tr>
