@@ -10,8 +10,8 @@ interface SnailModalProps {
     snail?: Snail;
     onUpdate: (newSnail: Snail, oldSnailName: string | undefined) => void;
     isSnailNameValid: (snailName: string) => boolean;
-    isOpen : boolean;
-    close : () => void;
+    isOpen: boolean;
+    close: () => void;
 }
 
 export default function SnailModal({ snail, onUpdate, isSnailNameValid, isOpen, close }: SnailModalProps) {
@@ -21,7 +21,7 @@ export default function SnailModal({ snail, onUpdate, isSnailNameValid, isOpen, 
     const [isWaitingForTransaction, setIsWaitingForTransaction] = useState(false);
 
     useEffect(() => {
-        if(!isWaitingForTransaction || isLoading) return;
+        if (!isWaitingForTransaction || isLoading) return;
         if (isSuccess && address != undefined) {
             onUpdate(
                 {
@@ -83,7 +83,7 @@ export default function SnailModal({ snail, onUpdate, isSnailNameValid, isOpen, 
             <Modal show={isOpen} onHide={close} className="modal-border">
                 <Modal.Body>
                     <div className="modal-title">
-                        <h2>{snail ? "Edit Snail": "Create Contract"}</h2>
+                        <h2>{snail ? "Edit Snail" : "Create Contract"}</h2>
                     </div>
                     <Row className="justify-content-center">
                         <Col md={10}>
@@ -124,17 +124,11 @@ export default function SnailModal({ snail, onUpdate, isSnailNameValid, isOpen, 
                                         Create
                                     </Button>
                                 ) : (
-                                    <div>
-                                        <Button variant="secondary" onClick={() => close()}>
-                                            Close
-                                        </Button>
-                                        <Button className="button-primary" onClick={handleOnClickSave} disabled={!isSnailNameValid(snailName)}>
-                                            Save Changes
-                                        </Button>
-                                    </div>
+                                    <Button className="button-primary" onClick={handleOnClickSave} disabled={!isSnailNameValid(snailName)} style={{ width: "10rem" }}>
+                                        Save Changes
+                                    </Button>
                                 )
                             }
-
                         </Col>
                     </Row>
                 </Modal.Body>
