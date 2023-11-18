@@ -1,17 +1,20 @@
-import { useState, useEffect } from "react";
-import { Button, Table, Image, Stack, Container, Col, Row } from "react-bootstrap";
-import chains from "../chains.json"
-import { Snail, SnailModalOptions, UserSnails } from "../types/snail";
-import SnailModal from "./SnailModal";
-import { getUserSnailsFromLocalStorage } from "../helpers/getUserSnailsFromLocalStorage";
-import { useAccount } from "wagmi";
+import { useEffect, useState } from "react";
+import { Button, Col, Container, Image, Row, Stack, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useAccount } from "wagmi";
+import chains from "../chains.json";
+import { getUserSnailsFromLocalStorage } from "../helpers/getUserSnailsFromLocalStorage";
+import { Snail, UserSnails } from "../types/snail";
+import SnailModal from "./SnailModal";
+import SnailModalButton from "./SnailModalButton";
 
 export default function SnailsTable() {
     const navigate = useNavigate();
     const { address } = useAccount();
 
     const [userSnails, setUserSnails] = useState<UserSnails | null>()
+    const [modifyingSnail, setModifyingSnail] = useState<Snail | undefined>(undefined);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
 
     if (!address) {
@@ -47,12 +50,18 @@ export default function SnailsTable() {
         }
     }, [userSnails]);
 
+    const showSnailModal = (snail: Snail | undefined) => {
+        setModifyingSnail(snail);
+        setIsModalOpen(true);
+    }
+
 
     return (
         <>
             <Container>
+                <SnailModal snail={modifyingSnail} onUpdate={handleSnailUpdate} isSnailNameValid={isNewNameValid} isOpen={isModalOpen} close={()=>setIsModalOpen(false)} />
                 <Stack dir="horizontal">
-                    <SnailModal snail={undefined} onUpdate={handleSnailUpdate} isSnailNameValid={isNewNameValid} />
+                    <SnailModalButton snail={undefined} showModal={showSnailModal} />
                 </Stack>
                 <Row className="justify-content-center">
                     <Col md={12} className="mx-auto">
@@ -76,10 +85,9 @@ export default function SnailsTable() {
                                         </td>
                                         <td style={{ textAlign: "end" }}>
                                             <Button className="button-primary">Execute</Button>
-                                            <SnailModal
+                                            <SnailModalButton
                                                 snail={snail}
-                                                onUpdate={handleSnailUpdate}
-                                                isSnailNameValid={isNewNameValid}
+                                                showModal={showSnailModal}
                                             />
                                         </td>
                                     </tr>

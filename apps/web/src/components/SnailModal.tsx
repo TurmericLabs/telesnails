@@ -10,16 +10,15 @@ interface SnailModalProps {
     snail?: Snail;
     onUpdate: (newSnail: Snail, oldSnailName: string | undefined) => void;
     isSnailNameValid: (snailName: string) => boolean;
+    isOpen : boolean;
+    close : () => void;
 }
 
-export default function SnailModal({ snail, onUpdate, isSnailNameValid }: SnailModalProps) {
-    const [show, setShow] = useState(false);
+export default function SnailModal({ snail, onUpdate, isSnailNameValid, isOpen, close }: SnailModalProps) {
     const [snailName, setSnailName] = useState<string>(snail?.name ?? "");
     const [selectedChainId, setSelectedChainId] = useState<number | undefined>(snail?.network);
     const { address, isLoading, isSuccess, deploySnail } = useCreateSnailContract();
     const [isWaitingForTransaction, setIsWaitingForTransaction] = useState(false);
-
-    const handleClose = () => setShow(false);
 
     useEffect(() => {
         if(!isWaitingForTransaction || isLoading) return;
@@ -33,13 +32,18 @@ export default function SnailModal({ snail, onUpdate, isSnailNameValid }: SnailM
                 snailName
             );
             toast.success("Snail updated successfully");
-            setShow(false);
+            close();
         }
         else {
             toast.error("Something went wrong while creating the snail");
         }
         setIsWaitingForTransaction(false);
     }, [isWaitingForTransaction, isLoading]);
+
+    useEffect(() => {
+        setSnailName(snail?.name ?? "");
+        setSelectedChainId(snail?.network);
+    }, [isOpen]);
 
     const handleOnSnailNameChange = (name: string) => {
         setSnailName(name);
@@ -70,17 +74,13 @@ export default function SnailModal({ snail, onUpdate, isSnailNameValid }: SnailM
                 snail?.name
             );
             toast.success("Snail updated successfully");
-            setShow(false);
+            close();
         }
     }
 
     return (
         <>
-            <Button onClick={() => setShow(true)} className='button-primary'>
-                {snail ? "Edit snail" : "Create a Telesnail"}
-            </Button>
-
-            <Modal show={show} onHide={handleClose} className="modal-border">
+            <Modal show={isOpen} onHide={close} className="modal-border">
                 <Modal.Body>
                     <div className="modal-title">
                         <h2>{snail ? "Edit snail" : "Create Contract"}</h2>
@@ -125,7 +125,7 @@ export default function SnailModal({ snail, onUpdate, isSnailNameValid }: SnailM
                                     </Button>
                                 ) : (
                                     <div>
-                                        <Button variant="secondary" onClick={() => setShow(false)}>
+                                        <Button variant="secondary" onClick={() => close()}>
                                             Close
                                         </Button>
                                         <Button className="button-primary" onClick={handleOnClickSave} disabled={!isSnailNameValid(snailName)}>
