@@ -45,6 +45,17 @@ export default function SnailsTable() {
         setUserSnails(updatedSnails);
     };
 
+    const handleRemoveSnail = (snailName: string) => {
+        if (!userSnails) return; 
+    
+        const updatedSnails: UserSnails = {
+            address: userSnails.address,
+            snails: userSnails.snails.filter(snail => snail.name !== snailName)
+        };
+    
+        setUserSnails(updatedSnails);
+    };
+
     const handleOnSearchChange = (value: string) => {
         setSearchValue(value);
     }
@@ -151,7 +162,7 @@ export default function SnailsTable() {
                                         <td style={{ textAlign: "end" }}>
                                             <Stack direction="horizontal" gap={2} style={{ placeContent: "end" }}>
                                                 <Button className="button-primary">Execute</Button>
-                                                <Button className="button-secondary">Banish</Button>
+                                                <Button className="button-secondary" onClick={() => handleRemoveSnail(snail.name)}>Banish</Button>
                                             </Stack>
                                         </td>
                                     </tr>
