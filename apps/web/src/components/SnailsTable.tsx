@@ -22,6 +22,7 @@ export default function SnailsTable() {
     }
 
     const isNewNameValid = (snailName: string) : boolean => {
+        if(snailName.length == 0) return false;
         return userSnails?.snails.find(a => a.name === snailName) === undefined;
     }
 
