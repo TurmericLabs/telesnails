@@ -1,25 +1,30 @@
+import { useState, useEffect } from "react";
 import { Button, Table, Image, Stack } from "react-bootstrap";
 import chains from "../chains.json"
-import { Snail, SnailModalOptions } from "../types/snail";
+import { Snail, SnailModalOptions, UserSnails } from "../types/snail";
 import SnailModal from "./SnailModal";
-
-const sampleData = {
-    "userAddress": "0xBLABLABLA",
-    "snails": [
-        {
-            "address": "0xSnailAddress1",
-            "network": 10,
-            "name": "SuperSnail"
-        },
-        {
-            "address": "0xSnailAddress2",
-            "network": 1,
-            "name": "NotSoSuperSnail"
-        },
-    ]
-}
+import { getUserSnailsFromLocalStorage } from "../helpers/getUserSnailsFromLocalStorage";
+import { useAccount } from "wagmi";
+import { useNavigate } from "react-router-dom";
 
 export default function SnailsTable() {
+    const navigate = useNavigate();
+    const { address } = useAccount();
+
+    const [userSnails, setUserSnails] = useState<UserSnails | null>()
+
+
+    if(!address) {
+        navigate("/");
+    }
+
+    useEffect(() => {
+        const snails = getUserSnailsFromLocalStorage();
+        setUserSnails(snails);
+    }, [])
+
+    console.log(userSnails)
+
     return (
         <>
             <Table responsive>
@@ -31,7 +36,7 @@ export default function SnailsTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    {sampleData.snails.map((snail: Snail) => (
+                    {userSnails && userSnails.snails.map((snail: Snail) => (
                         <tr key={snail.address}>
                             <td>{snail.name}</td>
                             <td>

@@ -21,7 +21,7 @@ export default function SnailModal({ option, snail }: SnailModalProps) {
     const [userSnails, setUserSnails] = useState<UserSnails | null>(null);
     const { address } = useAccount();
 
-    if(!address) {
+    if (!address) {
         navigate("/");
     }
 
@@ -36,32 +36,31 @@ export default function SnailModal({ option, snail }: SnailModalProps) {
     };
 
     const handleOnClickCreate = () => {
-        if(!snailName || !selectedChain) {
+        if (!snailName || !selectedChain) {
             toast.error("Please fill in all fields");
             return;
         }
-        // TODO: INTEGRATE CONTRACT
+
         setUserSnails(current => {
             if (current === null) {
                 return null;
             }
-        
+
             return {
                 ...current,
                 snails: [
                     ...current.snails,
                     {
-                        address: "0xSnailAddress1", 
+                        address: "0xSnailAddress1",
                         network: selectedChain?.id,
                         name: snailName
                     }
                 ]
             };
         });
-        localStorage.setItem("userSnails", JSON.stringify(userSnails));
         toast.success("Snail created successfully");
         setShow(false);
-    }
+    };
 
     const handleOnClickSave = () => {
 
@@ -69,7 +68,7 @@ export default function SnailModal({ option, snail }: SnailModalProps) {
 
     useEffect(() => {
         const snails = getUserSnailsFromLocalStorage();
-        if(!snails && address) {
+        if (!snails && address) {
             setUserSnails({
                 address: address,
                 snails: []
@@ -78,6 +77,12 @@ export default function SnailModal({ option, snail }: SnailModalProps) {
             setUserSnails(snails);
         }
     }, [address])
+
+    useEffect(() => {
+        if (userSnails) {
+            localStorage.setItem("userSnails", JSON.stringify(userSnails));
+        }
+    }, [userSnails]);
 
     return (
         <>
@@ -120,7 +125,7 @@ export default function SnailModal({ option, snail }: SnailModalProps) {
                             </Stack>
                         </Col>
                     </Row>
-                    <Row className="justify-content-center" style={{marginTop: "5%", marginBottom: "5%", textAlign: "center"}}>
+                    <Row className="justify-content-center" style={{ marginTop: "5%", marginBottom: "5%", textAlign: "center" }}>
                         <Col md={10}>
                             {option === SnailModalOptions.CREATE ? (
                                 <Button className="button-primary" onClick={handleOnClickCreate} disabled={!snailName || !selectedChain}>

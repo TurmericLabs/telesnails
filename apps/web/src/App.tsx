@@ -6,13 +6,13 @@ import { getUserSnailsFromLocalStorage } from "./helpers/getUserSnailsFromLocalS
 export default function App() {
   const navigate = useNavigate();
   const { address } = useAccount();
-  const snails = getUserSnailsFromLocalStorage();
+  const userSnails = getUserSnailsFromLocalStorage();
 
-  if (address && snails) {
+  if (address && userSnails?.snails.length !== 0) {
     navigate('/snails');
   }
 
-  if (address && !snails) {
+  if (address && userSnails?.snails.length === 0) {
     navigate('/first-snail');
   }
 
