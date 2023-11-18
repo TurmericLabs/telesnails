@@ -18,14 +18,24 @@ export default function SnailsTable() {
         navigate("/");
     }
 
-    const handleSnailsUpdate = (snail: Snail) => {
+    const handleSnailsUpdate = (snail: Snail, originalSnailName: string | undefined) => {
+        const updatedSnails: UserSnails = {
+            address: userSnails?.address ?? address!,
+            snails: userSnails?.snails ?? []
+        };
+
+        if (originalSnailName) {
+            updatedSnails.snails = updatedSnails.snails.filter(a => a.name !== originalSnailName);
+        }
+        updatedSnails.snails.push(snail);
+
         setUserSnails(updatedSnails);
     };
 
     useEffect(() => {
         const snails = getUserSnailsFromLocalStorage();
         setUserSnails(snails);
-    }, [])
+    }, []);
 
     useEffect(() => {
         if (userSnails) {
@@ -35,6 +45,7 @@ export default function SnailsTable() {
 
 
     return (
+        <>
             <Container>
                 <Stack dir="horizontal">
                     <SnailModal option={SnailModalOptions.CREATE} onUpdate={handleSnailsUpdate} />
@@ -73,6 +84,6 @@ export default function SnailsTable() {
                     </Col>
                 </Row>
             </Container>
-
+        </>
     )
 }
