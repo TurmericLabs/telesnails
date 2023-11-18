@@ -66,16 +66,18 @@ export default function SnailsTable() {
 
     useEffect(() => {
         const filterSnails = () => {
-            if (!selectedChainId) {
-                setFilteredSnails(userSnails?.snails ?? []);
-            } else {
-                const filtered = userSnails?.snails.filter(snail => snail.network === selectedChainId) ?? [];
-                setFilteredSnails(filtered);
+            let filtered = userSnails?.snails ?? [];
+            if (selectedChainId) {
+                filtered = filtered.filter(snail => snail.network === selectedChainId);
             }
+            if (searchValue) {
+                filtered = filtered.filter(snail => snail.name.toLowerCase().includes(searchValue.toLowerCase()));
+            }
+            setFilteredSnails(filtered);
         };
-    
         filterSnails();
-    }, [userSnails, selectedChainId]);
+    }, [userSnails, selectedChainId, searchValue]); // Add searchValue as a dependency
+    
 
     const showSnailModal = (snail: Snail | undefined) => {
         setModifyingSnail(snail);
