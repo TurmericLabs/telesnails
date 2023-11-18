@@ -7,6 +7,8 @@ import { getUserSnailsFromLocalStorage } from "../helpers/getUserSnailsFromLocal
 import { Snail, UserSnails } from "../types/snail";
 import SnailModal from "./SnailModal";
 import SnailModalButton from "./SnailModalButton";
+import SnailModalButtonWithAdd from "./SnailModalButtonWithAdd";
+import SnailModalEditButton from "./SnailModalEditButton";
 
 export default function SnailsTable() {
     const navigate = useNavigate();
@@ -21,7 +23,7 @@ export default function SnailsTable() {
         navigate("/");
     }
 
-    const isNewNameValid = (snailName: string) : boolean => {
+    const isNewNameValid = (snailName: string): boolean => {
         return userSnails?.snails.find(a => a.name === snailName) === undefined;
     }
 
@@ -59,9 +61,9 @@ export default function SnailsTable() {
     return (
         <>
             <Container>
-                <SnailModal snail={modifyingSnail} onUpdate={handleSnailUpdate} isSnailNameValid={isNewNameValid} isOpen={isModalOpen} close={()=>setIsModalOpen(false)} />
+                <SnailModal snail={modifyingSnail} onUpdate={handleSnailUpdate} isSnailNameValid={isNewNameValid} isOpen={isModalOpen} close={() => setIsModalOpen(false)} />
                 <Stack dir="horizontal">
-                    <SnailModalButton snail={undefined} showModal={showSnailModal} />
+                    <SnailModalButtonWithAdd snail={undefined} showModal={showSnailModal} />
                 </Stack>
                 <Row className="justify-content-center">
                     <Col md={12} className="mx-auto">
@@ -76,7 +78,12 @@ export default function SnailsTable() {
                             <tbody>
                                 {userSnails && userSnails.snails.map((snail: Snail) => (
                                     <tr key={snail.name}>
-                                        <td>{snail.name}</td>
+                                        <td>
+                                            <Stack direction="horizontal" gap={3}>
+                                                {snail.name}
+                                                <SnailModalEditButton snail={snail} showModal={showSnailModal} />
+                                            </Stack>
+                                        </td>
                                         <td>
                                             <Stack direction="horizontal" gap={3}>
                                                 <Image src={chains.findLast(a => a.id === snail.network)?.logoUrl} width="20px" height="20px" roundedCircle />
@@ -85,10 +92,7 @@ export default function SnailsTable() {
                                         </td>
                                         <td style={{ textAlign: "end" }}>
                                             <Button className="button-primary">Execute</Button>
-                                            <SnailModalButton
-                                                snail={snail}
-                                                showModal={showSnailModal}
-                                            />
+                                            <Button className="button-secondary">Banish</Button>
                                         </td>
                                     </tr>
                                 ))}
