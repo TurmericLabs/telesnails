@@ -81,3 +81,22 @@ h2 {
 .header-connect {
     align-self: center;
 }
+
+.snails-table {
+    margin-top: 5vh;
+    width: 100%;
+}
+
+.snails-table th {
+    background: #575938;
+    color: white;
+    font-family: 'Nunito Variable';
+}
+
+.snails-table thead tr th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.snails-table thead tr th:last-child {
+    border-top-right-radius: 8px;
+}

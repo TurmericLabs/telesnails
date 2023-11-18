@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Table, Image, Stack } from "react-bootstrap";
+import { Button, Table, Image, Stack, Container, Col, Row } from "react-bootstrap";
 import chains from "../chains.json"
 import { Snail, SnailModalOptions, UserSnails } from "../types/snail";
 import SnailModal from "./SnailModal";
@@ -18,7 +18,7 @@ export default function SnailsTable() {
         navigate("/");
     }
 
-    const handleSnailsUpdate = (updatedSnails: UserSnails) => {
+    const handleSnailsUpdate = (snail: Snail) => {
         setUserSnails(updatedSnails);
     };
 
@@ -35,37 +35,44 @@ export default function SnailsTable() {
 
 
     return (
-        <>
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <th>Snail name</th>
-                        <th>Network</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {userSnails && userSnails.snails.map((snail: Snail) => (
-                        <tr key={snail.address}>
-                            <td>{snail.name}</td>
-                            <td>
-                                <Stack direction="horizontal" gap={3}>
-                                    <Image src={chains.findLast(a => a.id == snail.network)?.logoUrl} width="20px" height="20px" roundedCircle />
-                                    {chains.findLast(a => a.id == snail.network)?.name}
-                                </Stack>
-                            </td>
-                            <td>
-                                <Button className="button-primary">Execute</Button>
-                                <SnailModal
-                                    option={SnailModalOptions.EDIT}
-                                    snail={snail}
-                                    onUpdate={handleSnailsUpdate}
-                                />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-        </>
+            <Container>
+                <Stack dir="horizontal">
+                    <SnailModal option={SnailModalOptions.CREATE} onUpdate={handleSnailsUpdate} />
+                </Stack>
+                <Row className="justify-content-center">
+                    <Col md={12} className="mx-auto">
+                        <Table responsive className="snails-table">
+                            <thead>
+                                <tr>
+                                    <th>Snail name</th>
+                                    <th>Network</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {userSnails && userSnails.snails.map((snail: Snail) => (
+                                    <tr key={snail.name}>
+                                        <td>{snail.name}</td>
+                                        <td>
+                                            <Stack direction="horizontal" gap={3}>
+                                                <Image src={chains.findLast(a => a.id === snail.network)?.logoUrl} width="20px" height="20px" roundedCircle />
+                                                {chains.findLast(a => a.id === snail.network)?.name}
+                                            </Stack>
+                                        </td>
+                                        <td style={{ textAlign: "end" }}>
+                                            <Button className="button-primary">Execute</Button>
+                                            <SnailModal
+                                                snail={snail}
+                                                onUpdate={handleSnailsUpdate(snail)}
+                                            />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+            </Container>
+
     )
 }

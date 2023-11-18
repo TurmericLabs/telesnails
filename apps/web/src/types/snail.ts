@@ -1,5 +1,5 @@
 export type Snail = {
-    address: string;
+    address: `0x${string}` | undefined;
     network: number;
     name: string;
 }
