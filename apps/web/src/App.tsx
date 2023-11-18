@@ -1,4 +1,4 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAccount } from "wagmi";
 import { getUserSnailsFromLocalStorage } from "./helpers/getUserSnailsFromLocalStorage";
@@ -18,10 +18,13 @@ export default function App() {
 
   return (
     <Container style={{ minHeight: "100vh" }} className="background">
-      <Row className="justify-content-md-center align-items-center" style={{ height: "80vh" }}>
-        <Col md="auto">
+      <Row className="justify-content-md-center align-items-center" style={{ height: "60vh" }}>
+        <Col md="auto" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Image src="../public/snail.svg" width="200px" height="200px" />
+          </div>
           <h1>Send once, execute everywhere.</h1>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: "2.5vh" }}> 
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: "2.5vh" }}>
             <w3m-button />
           </div>
         </Col>

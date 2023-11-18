@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 interface SnailModalProps {
     option: SnailModalOptions;
     snail?: Snail;
-    onUpdate: (updatedSnails: UserSnails) => void;
+    onUpdate?: (updatedSnails: UserSnails) => void;
 }
 
 export default function SnailModal({ option, snail, onUpdate }: SnailModalProps) {
@@ -58,10 +58,9 @@ export default function SnailModal({ option, snail, onUpdate }: SnailModalProps)
                 ]
             };
     
-            onUpdate(updatedSnails);
+            onUpdate?.(updatedSnails);
             return updatedSnails;
         });
-    
         toast.success("Snail created successfully");
         setShow(false);
     };
@@ -89,7 +88,7 @@ export default function SnailModal({ option, snail, onUpdate }: SnailModalProps)
                     return currentSnail;
                 })
             };
-            onUpdate(updatedSnails);
+            onUpdate?.(updatedSnails);
             return updatedSnails;
         });
     
