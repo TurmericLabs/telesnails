@@ -18,7 +18,11 @@ export default function SnailsTable() {
         navigate("/");
     }
 
-    const handleSnailsUpdate = (snail: Snail, originalSnailName: string | undefined) => {
+    const isNewNameValid = (snailName: string) : boolean => {
+        return userSnails?.snails.find(a => a.name === snailName) === undefined;
+    }
+
+    const handleSnailUpdate = (snail: Snail, originalSnailName: string | undefined) => {
         const updatedSnails: UserSnails = {
             address: userSnails?.address ?? address!,
             snails: userSnails?.snails ?? []
@@ -48,7 +52,7 @@ export default function SnailsTable() {
         <>
             <Container>
                 <Stack dir="horizontal">
-                    <SnailModal option={SnailModalOptions.CREATE} onUpdate={handleSnailsUpdate} />
+                    <SnailModal snail={undefined} onUpdate={handleSnailUpdate} isSnailNameValid={isNewNameValid} />
                 </Stack>
                 <Row className="justify-content-center">
                     <Col md={12} className="mx-auto">
@@ -74,7 +78,8 @@ export default function SnailsTable() {
                                             <Button className="button-primary">Execute</Button>
                                             <SnailModal
                                                 snail={snail}
-                                                onUpdate={handleSnailsUpdate(snail)}
+                                                onUpdate={handleSnailUpdate}
+                                                isSnailNameValid={isNewNameValid}
                                             />
                                         </td>
                                     </tr>
