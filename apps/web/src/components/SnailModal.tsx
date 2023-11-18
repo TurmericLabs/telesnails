@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
-import { Button, InputGroup, Modal, Form, Image, Dropdown, DropdownButton, Stack, Row, Col } from 'react-bootstrap';
-import chains from "../chains.json"
-import { Snail, SnailModalOptions } from '../types/snail';
-import { getUserSnailsFromLocalStorage } from '../helpers/getUserSnailsFromLocalStorage';
-import { Chain } from '../types/chains';
+import { useEffect, useState } from 'react';
+import { Button, Col, Dropdown, DropdownButton, Form, Image, InputGroup, Modal, Row, Spinner, Stack } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import chains from "../chains.json";
 import useCreateSnailContract from '../hooks/useCreateSnailContract';
+import { Chain } from '../types/chains';
+import { Snail } from '../types/snail';
 
 interface SnailModalProps {
     snail?: Snail;
@@ -18,8 +17,29 @@ export default function SnailModal({ snail, onUpdate, isSnailNameValid }: SnailM
     const [snailName, setSnailName] = useState<string>(snail?.name ?? "");
     const [selectedChainId, setSelectedChainId] = useState<number | undefined>(snail?.network);
     const { address, isLoading, isSuccess, deploySnail } = useCreateSnailContract();
+    const [isWaitingForTransaction, setIsWaitingForTransaction] = useState(false);
 
     const handleClose = () => setShow(false);
+
+    useEffect(() => {
+        if(!isWaitingForTransaction || isLoading) return;
+        if (isSuccess && address != undefined) {
+            onUpdate(
+                {
+                    name: snailName,
+                    network: selectedChainId!,
+                    address: address,
+                },
+                snailName
+            );
+            toast.success("Snail updated successfully");
+            setShow(false);
+        }
+        else {
+            toast.error("Something went wrong while creating the snail");
+        }
+        setIsWaitingForTransaction(false);
+    }, [isWaitingForTransaction, isLoading]);
 
     const handleOnSnailNameChange = (name: string) => {
         setSnailName(name);
@@ -39,22 +59,8 @@ export default function SnailModal({ snail, onUpdate, isSnailNameValid }: SnailM
             return;
         }
         if (!snail) {
-            deploySnail(selectedChainId).then(() => {
-                if (isSuccess && address != undefined) {
-                    onUpdate({
-                        name: snailName,
-                        network: selectedChainId,
-                        address: address,
-                    },
-                        snailName
-                    );
-                    toast.success("Snail updated successfully");
-                    setShow(false);
-                }
-                else {
-                    toast.error("Something went wrong while creating the snail");
-                }
-            });
+            setIsWaitingForTransaction(true);
+            deploySnail(selectedChainId);
         } else {
             onUpdate({
                 name: snailName,
@@ -111,20 +117,24 @@ export default function SnailModal({ snail, onUpdate, isSnailNameValid }: SnailM
                     </Row>
                     <Row className="justify-content-center" style={{ marginTop: "5%", marginBottom: "5%", textAlign: "center" }}>
                         <Col md={10}>
-                            {!snail ? (
-                                <Button className="button-primary" onClick={handleOnClickSave} disabled={!snailName || !selectedChainId}>
-                                    Create
-                                </Button>
-                            ) : (
-                                <div>
-                                    <Button variant="secondary" onClick={() => setShow(false)}>
-                                        Close
+                            {isLoading ?
+                                (<Spinner animation="border" role="status"></Spinner>) :
+                                !snail ? (
+                                    <Button className="button-primary" onClick={handleOnClickSave} disabled={!snailName || !selectedChainId}>
+                                        Create
                                     </Button>
-                                    <Button className="button-primary" onClick={handleOnClickSave} disabled={!isSnailNameValid(snailName)}>
-                                        Save Changes
-                                    </Button>
-                                </div>
-                            )}
+                                ) : (
+                                    <div>
+                                        <Button variant="secondary" onClick={() => setShow(false)}>
+                                            Close
+                                        </Button>
+                                        <Button className="button-primary" onClick={handleOnClickSave} disabled={!isSnailNameValid(snailName)}>
+                                            Save Changes
+                                        </Button>
+                                    </div>
+                                )
+                            }
+
                         </Col>
                     </Row>
                 </Modal.Body>
