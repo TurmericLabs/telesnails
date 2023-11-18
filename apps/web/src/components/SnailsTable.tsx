@@ -22,15 +22,6 @@ export default function SnailsTable() {
 
     const [filteredSnails, setFilteredSnails] = useState<Snail[]>([]);
 
-    const filterSnails = () => {
-        if (!selectedChainId) {
-            setFilteredSnails(userSnails?.snails ?? []);
-        } else {
-            const filtered = userSnails?.snails.filter(snail => snail.network === selectedChainId) ?? [];
-            setFilteredSnails(filtered);
-        }
-    };    
-
     if (!address) {
         navigate("/");
     }
@@ -91,7 +82,6 @@ export default function SnailsTable() {
         setIsModalOpen(true);
     }
 
-
     return (
         <>
             <Container>
@@ -131,7 +121,6 @@ export default function SnailsTable() {
                         </Col>
                     </Row>
                 </Stack>
-
                 <Row className="justify-content-center">
                     <Col md={12} className="mx-auto">
                         <Table responsive className="snails-table">
@@ -165,6 +154,13 @@ export default function SnailsTable() {
                                         </td>
                                     </tr>
                                 ))}
+                                {filteredSnails.length === 0 && (
+                                    <tr>
+                                        <td colSpan={3} style={{ textAlign: "center" }}>
+                                            <p>No snails found with this search parameters.</p>
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
                         </Table>
                     </Col>
