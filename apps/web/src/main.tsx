@@ -11,11 +11,11 @@ import { chains, projectId, metadata } from './wagmi.ts';
 import Header from './components/Header.tsx';
 import SnailsPage from './pages/snails.tsx';
 import FirstSnailPage from './pages/first-snail.tsx';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import "@fontsource/londrina-solid"; 
 import "@fontsource-variable/nunito"
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   { path: "/", element: <App /> },
   { path: "/snails", element: <SnailsPage /> },
   { path: "/first-snail", element: <FirstSnailPage /> },
