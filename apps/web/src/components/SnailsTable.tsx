@@ -6,7 +6,6 @@ import chains from "../chains.json";
 import { getUserSnailsFromLocalStorage } from "../helpers/getUserSnailsFromLocalStorage";
 import { Snail, UserSnails } from "../types/snail";
 import SnailModal from "./SnailModal";
-import SnailModalButton from "./SnailModalButton";
 import SnailModalButtonWithAdd from "./SnailModalButtonWithAdd";
 import SnailModalEditButton from "./SnailModalEditButton";
 
