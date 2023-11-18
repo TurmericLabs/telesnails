@@ -1,9 +1,9 @@
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAccount } from "wagmi";
-import { getUserSnailsFromLocalStorage } from "./helpers/getUserSnailsFromLocalStorage";
+import { getUserSnailsFromLocalStorage } from "../helpers/getUserSnailsFromLocalStorage";
 
-export default function App() {
+export default function HomePage() {
   const navigate = useNavigate();
   const { address } = useAccount();
   const userSnails = getUserSnailsFromLocalStorage();

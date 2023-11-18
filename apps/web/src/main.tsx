@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { WagmiConfig } from "wagmi";
-import App from "./App.tsx";
+import HomePage from './pages/home.tsx';
 import { chains, projectId, metadata } from './wagmi.ts';
 import Header from './components/Header.tsx';
 import SnailsPage from './pages/snails.tsx';
@@ -16,7 +16,7 @@ import "@fontsource/londrina-solid";
 import "@fontsource-variable/nunito"
 
 const router = createHashRouter([
-  { path: "/", element: <App /> },
+  { path: "/", element: <HomePage /> },
   { path: "/snails", element: <SnailsPage /> },
   { path: "/first-snail", element: <FirstSnailPage /> },
 ]);
