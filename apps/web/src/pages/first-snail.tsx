@@ -22,7 +22,7 @@ export default function FirstSnailPage() {
     }, [userSnails]);
 
     return (
-        <Container style={{ minHeight: "100vh" }} className="background">
+        <Container style={{ maxHeight: "100vh" }} className="background">
             <Row className="justify-content-md-center align-items-center" style={{ height: "60vh" }}>
                 <Col md="auto">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -34,6 +34,7 @@ export default function FirstSnailPage() {
                     </div>
                 </Col>
             </Row>
+            <Image src="/background.svg" width="100%" />
         </Container>
     )
 }
