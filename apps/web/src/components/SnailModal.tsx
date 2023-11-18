@@ -11,9 +11,10 @@ import { toast } from 'react-toastify';
 interface SnailModalProps {
     option: SnailModalOptions;
     snail?: Snail;
+    onUpdate: (updatedSnails: UserSnails) => void;
 }
 
-export default function SnailModal({ option, snail }: SnailModalProps) {
+export default function SnailModal({ option, snail, onUpdate }: SnailModalProps) {
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const [snailName, setSnailName] = useState<string | undefined>(snail?.name);
@@ -40,13 +41,12 @@ export default function SnailModal({ option, snail }: SnailModalProps) {
             toast.error("Please fill in all fields");
             return;
         }
-
         setUserSnails(current => {
             if (current === null) {
                 return null;
             }
-
-            return {
+    
+            const updatedSnails = {
                 ...current,
                 snails: [
                     ...current.snails,
@@ -57,13 +57,44 @@ export default function SnailModal({ option, snail }: SnailModalProps) {
                     }
                 ]
             };
+    
+            onUpdate(updatedSnails);
+            return updatedSnails;
         });
+    
         toast.success("Snail created successfully");
         setShow(false);
     };
+    
 
     const handleOnClickSave = () => {
-
+        if (!snailName) {
+            toast.error("Please fill in all fields");
+            return;
+        }
+    
+        setUserSnails(current => {
+            if (current === null) {
+                return null;
+            }
+            const updatedSnails = {
+                ...current,
+                snails: current.snails.map(currentSnail => {
+                    if (currentSnail.address === snail?.address) {
+                        return {
+                            ...currentSnail,
+                            name: snailName
+                        };
+                    }
+                    return currentSnail;
+                })
+            };
+            onUpdate(updatedSnails);
+            return updatedSnails;
+        });
+    
+        toast.success("Snail updated successfully");
+        setShow(false);
     }
 
     useEffect(() => {

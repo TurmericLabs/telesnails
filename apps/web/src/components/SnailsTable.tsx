@@ -14,16 +14,25 @@ export default function SnailsTable() {
     const [userSnails, setUserSnails] = useState<UserSnails | null>()
 
 
-    if(!address) {
+    if (!address) {
         navigate("/");
     }
+
+    const handleSnailsUpdate = (updatedSnails: UserSnails) => {
+        setUserSnails(updatedSnails);
+    };
 
     useEffect(() => {
         const snails = getUserSnailsFromLocalStorage();
         setUserSnails(snails);
     }, [])
 
-    console.log(userSnails)
+    useEffect(() => {
+        if (userSnails) {
+            localStorage.setItem("userSnails", JSON.stringify(userSnails));
+        }
+    }, [userSnails]);
+
 
     return (
         <>
@@ -47,7 +56,11 @@ export default function SnailsTable() {
                             </td>
                             <td>
                                 <Button className="button-primary">Execute</Button>
-                                <SnailModal option={SnailModalOptions.EDIT} snail={snail} />
+                                <SnailModal
+                                    option={SnailModalOptions.EDIT}
+                                    snail={snail}
+                                    onUpdate={handleSnailsUpdate}
+                                />
                             </td>
                         </tr>
                     ))}
