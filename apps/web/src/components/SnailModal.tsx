@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, InputGroup, Modal, Form, Image, Dropdown, DropdownButton, Stack, Row, Col } from 'react-bootstrap';
 import chains from "../chains.json"
-import { Snail, SnailModalOptions } from '../types/snail';
+import { Snail, SnailModalOptions, UserSnails } from '../types/snail';
+import { getUserSnailsFromLocalStorage } from '../helpers/getUserSnailsFromLocalStorage';
 import { Chain } from '../types/chains';
+import { useAccount } from 'wagmi';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface SnailModalProps {
     option: SnailModalOptions;
@@ -10,9 +14,16 @@ interface SnailModalProps {
 }
 
 export default function SnailModal({ option, snail }: SnailModalProps) {
+    const navigate = useNavigate();
     const [show, setShow] = useState(false);
-    const [snailName, setSnailName] = useState<string>(snail?.name || "");
+    const [snailName, setSnailName] = useState<string | undefined>(snail?.name);
     const [selectedChain, setSelectedChain] = useState<Chain | undefined>(undefined);
+    const [userSnails, setUserSnails] = useState<UserSnails | null>(null);
+    const { address } = useAccount();
+
+    if(!address) {
+        navigate("/");
+    }
 
     const handleClose = () => setShow(false);
 
@@ -24,9 +35,49 @@ export default function SnailModal({ option, snail }: SnailModalProps) {
         setSelectedChain(chain);
     };
 
+    const handleOnClickCreate = () => {
+        if(!snailName || !selectedChain) {
+            toast.error("Please fill in all fields");
+            return;
+        }
+        // TODO: INTEGRATE CONTRACT
+        setUserSnails(current => {
+            if (current === null) {
+                return null;
+            }
+        
+            return {
+                ...current,
+                snails: [
+                    ...current.snails,
+                    {
+                        address: "0xSnailAddress1", 
+                        network: selectedChain?.id,
+                        name: snailName
+                    }
+                ]
+            };
+        });
+        localStorage.setItem("userSnails", JSON.stringify(userSnails));
+        toast.success("Snail created successfully");
+        setShow(false);
+    }
+
     const handleOnClickSave = () => {
 
     }
+
+    useEffect(() => {
+        const snails = getUserSnailsFromLocalStorage();
+        if(!snails && address) {
+            setUserSnails({
+                address: address,
+                snails: []
+            })
+        } else {
+            setUserSnails(snails);
+        }
+    }, [address])
 
     return (
         <>
@@ -72,7 +123,7 @@ export default function SnailModal({ option, snail }: SnailModalProps) {
                     <Row className="justify-content-center" style={{marginTop: "5%", marginBottom: "5%", textAlign: "center"}}>
                         <Col md={10}>
                             {option === SnailModalOptions.CREATE ? (
-                                <Button className="button-primary" onClick={handleOnClickSave} disabled={!snailName || !selectedChain}>
+                                <Button className="button-primary" onClick={handleOnClickCreate} disabled={!snailName || !selectedChain}>
                                     Create
                                 </Button>
                             ) : (

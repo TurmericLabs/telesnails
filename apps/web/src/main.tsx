@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css';
 import { defaultWagmiConfig, createWeb3Modal } from '@web3modal/wagmi/react'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { WagmiConfig } from "wagmi";
@@ -30,6 +32,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <WagmiConfig config={wagmiConfig}>
       <Header />
       <RouterProvider router={router}/>
+      <ToastContainer />
     </WagmiConfig>
   </React.StrictMode>,
 );

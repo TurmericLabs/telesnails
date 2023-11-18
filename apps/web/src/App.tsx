@@ -1,13 +1,19 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAccount } from "wagmi";
+import { getUserSnailsFromLocalStorage } from "./helpers/getUserSnailsFromLocalStorage";
 
 export default function App() {
   const navigate = useNavigate();
   const { address } = useAccount();
+  const snails = getUserSnailsFromLocalStorage();
 
-  if (address) {
-    navigate('/snails')
+  if (address && snails) {
+    navigate('/snails');
+  }
+
+  if (address && !snails) {
+    navigate('/first-snail');
   }
 
   return (

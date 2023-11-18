@@ -4,7 +4,7 @@ import { Snail, SnailModalOptions } from "../types/snail";
 import SnailModal from "./SnailModal";
 
 const sampleData = {
-    "userAddress": "0xUserAddress123456",
+    "userAddress": "0xBLABLABLA",
     "snails": [
         {
             "address": "0xSnailAddress1",
