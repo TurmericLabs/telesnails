@@ -83,7 +83,7 @@ export default function SnailModal({ snail, onUpdate, isSnailNameValid, isOpen, 
             <Modal show={isOpen} onHide={close} className="modal-border">
                 <Modal.Body>
                     <div className="modal-title">
-                        <h2>{snail ? "Create Contract" : "Edit Snail"}</h2>
+                        <h2>{snail ? "Edit Snail": "Create Contract"}</h2>
                     </div>
                     <Row className="justify-content-center">
                         <Col md={10}>
