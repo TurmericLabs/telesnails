@@ -8,11 +8,11 @@ export default function HomePage() {
   const { address } = useAccount();
   const userSnails = getUserSnailsFromLocalStorage();
 
-  if (address && userSnails?.snails.length !== 0) {
+  if (address && userSnails && userSnails?.snails.length !== 0) {
     navigate('/snails');
   }
 
-  if (address && userSnails?.snails.length === 0) {
+  if (address && (!userSnails || userSnails?.snails.length === 0)) {
     navigate('/first-snail');
   }
 
