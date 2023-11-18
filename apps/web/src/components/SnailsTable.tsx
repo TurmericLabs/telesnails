@@ -20,6 +20,16 @@ export default function SnailsTable() {
     const [searchValue, setSearchValue] = useState<string>("");
     const [selectedChainId, setSelectedChainId] = useState<number | undefined>(undefined);
 
+    const [filteredSnails, setFilteredSnails] = useState<Snail[]>([]);
+
+    const filterSnails = () => {
+        if (!selectedChainId) {
+            setFilteredSnails(userSnails?.snails ?? []);
+        } else {
+            const filtered = userSnails?.snails.filter(snail => snail.network === selectedChainId) ?? [];
+            setFilteredSnails(filtered);
+        }
+    };    
 
     if (!address) {
         navigate("/");
@@ -62,6 +72,19 @@ export default function SnailsTable() {
             localStorage.setItem("userSnails", JSON.stringify(userSnails));
         }
     }, [userSnails]);
+
+    useEffect(() => {
+        const filterSnails = () => {
+            if (!selectedChainId) {
+                setFilteredSnails(userSnails?.snails ?? []);
+            } else {
+                const filtered = userSnails?.snails.filter(snail => snail.network === selectedChainId) ?? [];
+                setFilteredSnails(filtered);
+            }
+        };
+    
+        filterSnails();
+    }, [userSnails, selectedChainId]);
 
     const showSnailModal = (snail: Snail | undefined) => {
         setModifyingSnail(snail);
@@ -120,7 +143,7 @@ export default function SnailsTable() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {userSnails && userSnails.snails.map((snail: Snail) => (
+                                {filteredSnails.map((snail: Snail) => (
                                     <tr key={snail.name}>
                                         <td>
                                             <Stack direction="horizontal" gap={3}>
