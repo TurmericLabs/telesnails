@@ -4,6 +4,7 @@ import { Button, Container } from "react-bootstrap";
 import configureMonaco from "../utils/configureMonaco";
 
 import { useNavigate } from "react-router-dom";
+import SnailCommandSnippetExecutor from '../utils/SnailCommands/SnailCommandSnippetExecutor';
 
 export default function SnailCommandLine() {
 
@@ -19,7 +20,7 @@ export default function SnailCommandLine() {
     }
 
     const handleExecute = () => {
-        console.log(code);
+        new SnailCommandSnippetExecutor().exec(code);
     }
 
     return <Container>
