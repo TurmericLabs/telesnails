@@ -47,6 +47,7 @@ export default function FirstSnailPage() {
                     </div>
                 </Col>
             </Row>
+            <Image src="/background.svg" width="100%" />
         </Container>
     )
 }

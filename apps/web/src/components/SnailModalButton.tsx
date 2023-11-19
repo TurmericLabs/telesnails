@@ -1,10 +1,5 @@
 import { Button } from "react-bootstrap";
-import { Snail } from '../types/snail';
-
-interface SnailModalButtonProps {
-    snail?: Snail;
-    showModal: (snail: Snail | undefined) => void;
-}
+import { SnailModalButtonProps } from "../types/snail";
 
 export default function SnailModalButton({ showModal, snail }: SnailModalButtonProps) {
     return (

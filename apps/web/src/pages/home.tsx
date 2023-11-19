@@ -17,8 +17,8 @@ export default function HomePage() {
   }
 
   return (
-    <Container style={{ minHeight: "100vh" }} className="background">
-      <Row className="justify-content-md-center align-items-center" style={{ height: "60vh" }}>
+    <Container style={{ maxHeight: "100vh" }} className="background">
+      <Row className="justify-content-md-center align-items-center" style={{ height: "50vh" }}>
         <Col md="auto" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Image src="../public/snail.svg" width="200px" height="200px" />
@@ -29,6 +29,7 @@ export default function HomePage() {
           </div>
         </Col>
       </Row>
+      <Image src="/background.svg" width="100%" />
     </Container>
   );
 }

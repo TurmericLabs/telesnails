@@ -57,8 +57,8 @@ h2 {
 }
 
 .button-primary {
-    border-radius: 20px;
-    width: 15vw;
+    border-radius: 4px;
+    width: 6vw;
     background: #00AB60;
     font-family: 'Nunito Variable';
     font-weight: 100;
@@ -70,6 +70,18 @@ h2 {
 
 .button-primary:disabled {
     background:#8BC0C5;
+}
+
+.button-secondary {
+    border-radius: 4px;
+    width: 6vw;
+    background: #FF3A0E;
+    font-family: 'Nunito Variable';
+    font-weight: 100;
+}
+
+.button-secondary:hover {
+    background: #AE3208;
 }
 
 .background {
@@ -91,6 +103,7 @@ h2 {
     background: #575938;
     color: white;
     font-family: 'Nunito Variable';
+    font-weight: 100;
 }
 
 .snails-table thead tr th:first-child {
