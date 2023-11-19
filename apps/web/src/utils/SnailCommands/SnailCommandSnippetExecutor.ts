@@ -3,6 +3,10 @@ import { ExecSnailCommand, SnailCommand, SnailCommandType, UseSnailCommand, VarS
 import chains from "../../snippet-chains.json";
 import Call from "./Call";
 import {Interface} from "ethers";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { parseAbi } from "viem";
+
+const factoryAddress: `0x${string}` = "0x8361194ef57cc0ddf216af834a7db5963df9e88b"
 
 export default class SnailCommandSnippetExecutor {
     private variable = new Map<string, string>();
@@ -26,6 +30,32 @@ export default class SnailCommandSnippetExecutor {
         }
         
         this.callBatch = [];
+
+        const abi = parseAbi([
+            "struct Call { address to; bytes data;}",
+            "struct DispatchCall { uint32 destinationDomain; Call[] calls;}",
+            "function remoteMulticall(DispatchCall[] calldata dispatchCalls,) external"
+        ])
+
+        const { config, error } = usePrepareContractWrite({
+            address: factoryAddress,
+            abi: abi,
+            functionName: 'remoteMulticall',
+            args: [
+                {
+                    destinationDomain: this.selectedChainId,
+                    calls: [
+                        {
+                            to: this.callBatch[0].to,
+                            data: this.callBatch[0].data
+                        }
+                    ]
+                }
+            ],
+        });
+
+        const { data, isLoading, isSuccess, write } = useContractWrite(config);
+        
     }
 
     private execCommand(execCommand: ExecSnailCommand): boolean {
