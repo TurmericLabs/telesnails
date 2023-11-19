@@ -1,4 +1,3 @@
-import { usePrepareContractWrite, useContractWrite } from "wagmi";
 import { useState } from "react";
 
 interface SnailContractResult {

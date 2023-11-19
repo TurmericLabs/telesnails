@@ -85,7 +85,7 @@ export default function SnailsTable() {
                                             </Stack>
                                         </td>
                                         <td style={{ textAlign: "end" }}>
-                                            <Button className="button-primary">Execute</Button>
+                                            <Button className="button-primary" onClick={()=>navigate(`/command-snails?caller=${snail.name}`)}>Execute</Button>
                                             <SnailModalButton
                                                 snail={snail}
                                                 showModal={showSnailModal}

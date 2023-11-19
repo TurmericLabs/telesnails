@@ -7,6 +7,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { WagmiConfig } from "wagmi";
 import HomePage from './pages/home.tsx';
+import CommandSnailsPage from './pages/command-snails.tsx';
 import { chains, projectId, metadata } from './wagmi.ts';
 import Header from './components/Header.tsx';
 import SnailsPage from './pages/snails.tsx';
@@ -19,6 +20,7 @@ const router = createHashRouter([
   { path: "/", element: <HomePage /> },
   { path: "/snails", element: <SnailsPage /> },
   { path: "/first-snail", element: <FirstSnailPage /> },
+  { path: "/command-snails", element: <CommandSnailsPage /> },
 ]);
 
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
