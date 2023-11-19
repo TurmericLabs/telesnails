@@ -16,10 +16,10 @@ describe("SnailCommandParser exec", () => {
 describe("SnailCommandParser use", () => {
     it("parses a simple command", () => {
         const parser = new SnailCommandParser();
-        const snailCommand = parser.parseSnailCommand("use snail");
+        const snailCommand = parser.parseSnailCommand("use optimism");
         expect(snailCommand.type).toEqual(SnailCommandType.Use);
         const useCommand = snailCommand as UseSnailCommand;
-        expect(useCommand.snailName).toEqual("snail");
+        expect(useCommand.chainName).toEqual("optimism");
     });
 });
 

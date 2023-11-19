@@ -20,11 +20,11 @@ export class ExecSnailCommand extends SnailCommand {
     public args: string[];
 }
 export class UseSnailCommand extends SnailCommand {
-    constructor(snailName: string) {
+    constructor(chainName: string) {
         super(SnailCommandType.Use);
-        this.snailName = snailName;
+        this.chainName = chainName;
     }
-    public snailName: string;
+    public chainName: string;
 }
 export class VarSnailCommand extends SnailCommand {
     constructor(variableName: string, variableValue: string) {
