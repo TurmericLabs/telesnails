@@ -7,7 +7,7 @@ export default function configureMonaco() {
         }
         monaco.languages.register({ id: 'dendenmushi' });
     
-        let keywordsDenDen = ["purururu", "moshi-moshi", "den-den"];
+        let keywordsDenDen = ["purururu", "moshimoshi", "denden"];
         let keywordsStandard = ["use", "exec", "var"];
     
         let keywords = keywordsDenDen.concat(keywordsStandard);
@@ -17,8 +17,7 @@ export default function configureMonaco() {
             tokenizer: {
                 root: [
                     [/".*?"/, 'string'],
-                    [/\/\/.*/, 'comment'],
-                    [/\/\*.*\*\//, 'comment'],
+                    [/\#.*/, 'comment'],
                     [
                         /@?[a-zA-Z][\w$]*/,
                         {
@@ -39,10 +38,10 @@ export default function configureMonaco() {
                 
             },
             rules: [
-                { token: 'keyword', foreground: '0088ff', fontStyle: 'bold'},
-                { token: 'variable', foreground: 'ff0000' },
-                { token: 'string', foreground: 'ff8800' },
-                { token: 'comment', foreground: '00ff00' },
+                { token: 'keyword', foreground: 'a7a7a7', fontStyle: 'bold'},
+                { token: 'variable', foreground: '9f21a0' },
+                { token: 'string', foreground: '34ac80' },
+                { token: 'comment', foreground: '9f21a0', fontStyle: 'italic' },
             ]
         });
     });

@@ -1,13 +1,13 @@
-import { Container } from "react-bootstrap";
 import Editor from '@monaco-editor/react';
 import { useEffect, useState } from "react";
-import { editor } from 'monaco-editor';
+import { Button, Container } from "react-bootstrap";
 import configureMonaco from "../utils/configureMonaco";
 
-import loader from '@monaco-editor/loader';
+import { useNavigate } from "react-router-dom";
 
 export default function SnailCommandLine() {
 
+    const navigate = useNavigate();
     const [code, setCode] = useState<string>("");
 
     useEffect(() => {
@@ -18,12 +18,20 @@ export default function SnailCommandLine() {
         setCode(value);
     }
 
+    const handleExecute = () => {
+        console.log(code);
+    }
+
     return <Container>
         <Editor height="70vh"
             language="dendenmushi"
-            defaultValue="// some comment"
+            defaultValue="# moshi moshi"
             onChange={handleEditorChange}
             theme="dendenmushi"
         />
+        <div style={{ marginTop: "20px", justifyContent: "center", display: "flex" }}>
+            <Button style={{ marginRight: "5px" }} className="button-primary" onClick={() => { handleExecute() }}>Execute</Button>
+            <Button style={{ marginLeft: "5px" }} className="button-secondary" onClick={() => { navigate("/snails") }}>Cancel</Button>
+        </div>
     </Container>
 }
