@@ -5,10 +5,10 @@ import { ExecSnailCommand, SnailCommandType, UseSnailCommand, VarSnailCommand } 
 describe("SnailCommandParser exec", () => {
     it("parses a simple command", () => {
         const parser = new SnailCommandParser();
-        const snailCommand = parser.parseSnailCommand("exec (string) \"hello\"");
+        const snailCommand = parser.parseSnailCommand("exec \"0x00000\" \"function(string)\" \"hello\"");
         expect(snailCommand.type).toEqual(SnailCommandType.Exec);
         const execCommand = snailCommand as ExecSnailCommand;
-        expect(execCommand.signature ).toEqual("(string)");
+        expect(execCommand.signature ).toEqual("function(string)");
         expect(execCommand.args).toEqual(["\"hello\""]);
     });
 });

@@ -1,0 +1,22 @@
+[
+    {
+        "name": "mainnet",
+        "id": 1
+    },
+    {
+        "name": "optimism",
+        "id": 10
+    },
+    {
+        "name": "celo",
+        "id": 42220
+    },
+    {
+        "name": "arbitrum",
+        "id": 42161
+    },
+    {
+        "name": "gnosis",
+        "id": 100
+    }
+]

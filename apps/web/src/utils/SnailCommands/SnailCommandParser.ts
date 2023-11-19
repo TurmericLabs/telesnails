@@ -132,10 +132,10 @@ export default class SnailCommandParser {
         let str = "";
 
         // Consume opening quote
-        this.consume('(');
+        this.consume('"');
 
         // Parse string characters
-        while (this.currentToken() !== ')' && this.currentToken() !== '') {
+        while (this.currentToken() !== '"' && this.currentToken() !== '') {
             if (this.currentToken() === "\\") {
                 str += this.parseEscape();
             } else {
@@ -145,7 +145,7 @@ export default class SnailCommandParser {
         }
 
         // Consume closing quote
-        this.consume(')');
+        this.consume('"');
 
         return str;
     }
@@ -157,7 +157,9 @@ export default class SnailCommandParser {
         this.consume('c', false);
         this.consume(' ');
         
-        const signature = "("+this.parseSignature()+")";
+        const address = this.parseString();
+
+        const signature = this.parseSignature();
 
         var args = [];
         while(this.currentToken() !== '') {
@@ -173,7 +175,7 @@ export default class SnailCommandParser {
             }
         }
 
-        return new ExecSnailCommand(signature, args);
+        return new ExecSnailCommand(address, signature, args);
     }
 
     private parseUseCommand(): UseSnailCommand {

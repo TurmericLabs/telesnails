@@ -11,11 +11,13 @@ export abstract class SnailCommand {
     public type: SnailCommandType;
 }
 export class ExecSnailCommand extends SnailCommand {
-    constructor(signature: string, args: string[]) {
+    constructor(address: string, signature: string, args: string[]) {
         super(SnailCommandType.Exec);
         this.signature = signature;
         this.args = args;
+        this.address = address;
     }
+    public address: string;
     public signature: string;
     public args: string[];
 }
