@@ -2,9 +2,8 @@ import SnailCommandParser from "./SnailCommandParser";
 import { ExecSnailCommand, SnailCommand, SnailCommandType, UseSnailCommand, VarSnailCommand } from "./snailCommands";
 import chains from "../../snippet-chains.json";
 import Call from "./Call";
-import {Interface} from "ethers";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
-import { parseAbi } from "viem";
+import { useContractWrite } from "wagmi";
+import { encodeFunctionData, parseAbi } from "viem";
 
 const factoryAddress: `0x${string}` = "0x8361194ef57cc0ddf216af834a7db5963df9e88b"
 
@@ -34,32 +33,33 @@ export default class SnailCommandSnippetExecutor {
         const abi = parseAbi([
             "struct Call { address to; bytes data;}",
             "struct DispatchCall { uint32 destinationDomain; Call[] calls;}",
-            "function remoteMulticall(DispatchCall[] calldata dispatchCalls,) external"
+            "function remoteMulticall(DispatchCall[] dispatchCalls) external"
         ])
 
-        const { config, error } = usePrepareContractWrite({
+        const { write } = useContractWrite({
             address: factoryAddress,
             abi: abi,
             functionName: 'remoteMulticall',
             args: [
-                {
-                    destinationDomain: this.selectedChainId,
-                    calls: [
-                        {
-                            to: this.callBatch[0].to,
-                            data: this.callBatch[0].data
-                        }
-                    ]
-                }
+                [
+                    {
+                        destinationDomain: this.selectedChainId,
+                        calls: [
+                            {
+                                to: this.callBatch[0].to as `0x${string}`,
+                                data: this.callBatch[0].data as `0x${string}`
+                            }
+                        ]
+                    }
+                ]
             ],
         });
 
-        const { data, isLoading, isSuccess, write } = useContractWrite(config);
+        write();
         
     }
 
     private execCommand(execCommand: ExecSnailCommand): boolean {
-        const targetContract = new Interface(["function "+execCommand.signature]);
         const functionName = execCommand.signature.split('(')[0];
         const args = execCommand.args.map(arg => {
             if(arg.startsWith("\"") && arg.endsWith("\"")) {
@@ -82,7 +82,11 @@ export default class SnailCommandSnippetExecutor {
                 return value;
             }
         });
-        const data = targetContract.encodeFunctionData(functionName, args);
+        const data = encodeFunctionData({
+            abi: ["function "+execCommand.signature],
+            functionName,
+            args
+        });
         this.callBatch.push(new Call(execCommand.address, data));
         return true;
     }
@@ -134,6 +138,7 @@ export default class SnailCommandSnippetExecutor {
                     break;
             }
         }
+        this.executeCallBatch();
         return true;
     }
 }
